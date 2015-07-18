@@ -7,13 +7,31 @@ output:
 
 
 ## Loading and preprocessing the data
-test1
-test2
-test3
-Test4 test 5
 
+load data in unzipped activity.csv file
+```{r}
+data <- read.csv("activity.csv")
+```
 
 ## What is mean total number of steps taken per day?
+
+Calculate total steps per day ignoring intervals with missing data (na) and plot histogram
+```{r}
+s1 <- split(data, data$date)
+Steps_Per_Day <- sapply(s1, function(x) sum(x[, "steps"], na.rm=T))
+hist(Steps_Per_Day)
+```
+
+Calculate and display mean total steps per day
+```{r}
+print(mean(Steps_Per_Day))
+```
+
+Calculate and display median total steps per day
+```{r}
+print(median(Steps_Per_Day))
+```
+
 
 
 
