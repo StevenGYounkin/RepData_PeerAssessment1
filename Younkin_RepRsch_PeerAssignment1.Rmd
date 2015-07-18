@@ -1,0 +1,41 @@
+---
+title: "Younkin_RepRsch_PeerAssessment1"
+author: "SteveYounkin"
+date: "Friday, July 17, 2015"
+output: html_document
+---
+
+Load data
+```{r}
+data <- read.csv("activity.csv")
+```
+
+Calculate total steps per day ignoring intervals with missing data (na) and plot histogram
+```{r}
+s1 <- split(data, data$date)
+Steps_Per_Day <- sapply(s1, function(x) sum(x[, "steps"], na.rm=T))
+hist(Steps_Per_Day)
+```
+
+Calculate and display mean total steps per day
+```{r}
+print(mean(Steps_Per_Day))
+```
+
+Calculate and display median total steps per day
+```{r}
+print(median(Steps_Per_Day))
+```
+
+Calculate and plot Mean_Steps_Per_Interval
+```{r}
+s2 <- split(data, data$interval)
+Mean_Steps_Per_Interval <- sapply(s2, function(x) mean(x[, "steps"], na.rm=T))
+plot(Mean_Steps_Per_Interval, xlab = "Interval")
+```
+
+Determine the ending time of the 5-minute interval which, on average across all days in the dataset, contains the maximal number of steps. Display the ending time and then the average number of steps in the interval with the maximal number.
+```{r}
+sorted <- sort(Mean_Steps_Per_Interval, decreasing=T)
+print(sorted[1])
+```
