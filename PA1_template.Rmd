@@ -32,14 +32,29 @@ Calculate and display median total steps per day
 print(median(Steps_Per_Day))
 ```
 
-
-
-
 ## What is the average daily activity pattern?
+Calculate and plot Mean_Steps_Per_Interval
+```{r}
+s2 <- split(data, data$interval)
+Mean_Steps_Per_Interval <- sapply(s2, function(x) mean(x[, "steps"], na.rm=T))
+plot(Mean_Steps_Per_Interval, xlab = "Interval # (Each interval is 5 minutes long)")
+```
 
-
+Determine the interval which, on average across all days in the dataset, contains the maximal number of steps. Display the interval and then the average number of steps in that interval.
+```{r}
+sorted <- sort(Mean_Steps_Per_Interval, decreasing=T)
+print(sorted[1])
+```
+The maximum mean steps per interval occurred in interval 835 and was 206.1698 steps.
 
 ## Imputing missing values
+
+Determine and display the total number of intervals where data on steps is missing
+```{r}
+y <- sum(is.na(data$steps))
+print(y)
+```
+
 
 
 
