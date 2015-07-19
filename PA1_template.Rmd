@@ -19,7 +19,8 @@ Calculate total steps per day ignoring intervals with missing data (na) and plot
 ```{r}
 s1 <- split(data, data$date)
 Steps_Per_Day <- sapply(s1, function(x) sum(x[, "steps"], na.rm=T))
-hist(Steps_Per_Day, main="Histogram of Total Steps Per Day Ignoring Missing Values",xlab="Total Steps Per Day (ignores missing values)")
+hist(Steps_Per_Day, main="Histogram of Total Steps Per Day Ignoring Missing Values",
+     xlab="Total Steps Per Day (ignores missing values)")
 ```
 
 Calculate and display mean total steps per day
@@ -59,7 +60,14 @@ print(y)
 
 Fill in all intervals with missing values for steps with the average number of steps in that interval across all days
 ```{r}
-#In dataframe "data", each of the 61 days where steps were recorded has exactly 288 intervals. "Mean_Steps_Per_Interval" has the average number of steps in each of the 288 intervals (ignoring missing values). These average values were used to fill in missing values. To do this, I first created a long "filling vector" called "ReplacementValues" which consisted of 61 repeats of the average values. I then copied "data" into "filled data" and looped through "filled data", replacing each NA with the average value from "Replacement Values". I did lots of checks to be sure this worked to replace all missing values with the average value for that interval across all days.
+#In dataframe "data", each of the 61 days where steps were recorded has exactly 288 intervals. 
+#"Mean_Steps_Per_Interval" has the average number of steps in each of the 288 intervals 
+#(ignoring missing values). These average values were used to fill in missing values. 
+#To do this, I first created a long "filling vector" called "ReplacementValues" which consisted 
+#of 61 repeats of the average values. I then copied "data" into "filled data" and looped 
+#through "filled data", replacing each NA with the average value from "Replacement Values". 
+#I did lots of checks to be sure this worked to replace all missing values with the average 
+#value for that interval across all days.
 y <- length(Mean_Steps_Per_Interval) #Number of intervals for which average was determined
 x <- length(data$steps)              #Total number of intervals for all days
 z<-(x/y)                             #Number of days = number of repeats to create in filling vector
