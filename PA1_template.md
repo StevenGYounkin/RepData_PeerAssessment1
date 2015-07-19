@@ -152,4 +152,46 @@ Note that imputation results in a relatively small 15.1% increase in the average
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
+1. Create a new factor variable with two levels - "weekday" and "weekend"
 
+```r
+weekend <- c("10/6/2012", "10/7/2012", "10/13/2012", "10/14/2012", "10/20/2012", "10/21/2012", "10/27/2012", "10/28/2012", "11/3/2012", "11/4/2012", "11/10/2012", "11/11/2012", "11/17/2012", "11/18/2012", "11/24/2012", "11/25/2012")
+#print(weekend)
+f<-as.character(filleddata$date)
+#print(f)
+for (i in 1:length(f)){
+        if (!f[i] %in% weekend){
+                f[i]<-"weekday"
+        }
+        else f[i] <- "weekend"
+}
+f1 <- as.factor(f)
+#levels(f1)
+#str(f1)
+#ckf1 <-data.frame(f1,filleddata$date)
+#print(ckf1)
+ds<-split(filleddata, list(filleddata$interval,f1))
+#print(ds)
+MeanStepsPerInterval <- sapply(ds, function(x) mean(x[, "steps"], na.rm=T))
+#print(MeanStepsPerInterval)
+#str(MeanStepsPerInterval)
+WeekdayLabel <- as.character(names(MeanStepsPerInterval[1:288]))
+#print(WeekdayLabel)
+WeekdayPlotData <- data.frame(Interval,MeanStepsPerInterval[1:288],check.names=F)
+rownames(WeekdayPlotData) <- NULL
+#print(WeekdayPlotData)
+WeekendLabel <- as.character(names(MeanStepsPerInterval[289:576]))
+#print(WeekendLabel)
+WeekendPlotData <- data.frame(Interval,MeanStepsPerInterval[289:576],check.names=F)
+rownames(WeekendPlotData ) <- NULL
+#print(WeekendPlotData)
+WeekdayVsWeekendPlotData <- data.frame(WeekdayPlotData[,1:2],WeekendPlotData[2])
+colnames(WeekdayVsWeekendPlotData) <- c("Inter", "AvgStepsWeekday","AvgStepsWeekend" )
+#print(WeekdayVsWeekendPlotData)
+attach(WeekdayVsWeekendPlotData)
+layout(matrix(c(1,1,1,1,2,2,2,2),8,1, byrow=T), widths=c(1,1), heights=c(1,1))
+plot(Interval,AvgStepsWeekend,main="weekend")
+plot(Interval,AvgStepsWeekday,main="weekday")
+```
+
+![](./PA1_template_files/figure-html/unnamed-chunk-14-1.png) 
