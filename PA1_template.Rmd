@@ -11,6 +11,7 @@ output:
 load data in unzipped activity.csv file
 ```{r}
 data <- read.csv("activity.csv")
+print(data[1:1200,])
 ```
 
 ## What is mean total number of steps taken per day?
@@ -20,6 +21,10 @@ Calculate total steps per day ignoring intervals with missing data (na) and plot
 s1 <- split(data, data$date)
 Steps_Per_Day <- sapply(s1, function(x) sum(x[, "steps"], na.rm=T))
 hist(Steps_Per_Day)
+str(Steps_Per_Day)
+print(names(Steps_Per_Day))
+a<-c(Steps_Per_Day)
+str(a)
 ```
 
 Calculate and display mean total steps per day
@@ -37,7 +42,11 @@ Calculate and plot Mean_Steps_Per_Interval
 ```{r}
 s2 <- split(data, data$interval)
 Mean_Steps_Per_Interval <- sapply(s2, function(x) mean(x[, "steps"], na.rm=T))
-plot(Mean_Steps_Per_Interval, xlab = "Interval # (Each interval is 5 minutes long)")
+Interval <- as.numeric(names(Mean_Steps_Per_Interval))
+DataForPlot <- data.frame(Interval, Mean_Steps_Per_Interval)
+str(DataForPlot)
+print(DataForPlot)
+plot(DataForPlot,ylab="Mean Steps Per Interval")
 ```
 
 Determine the interval which, on average across all days in the dataset, contains the maximal number of steps. Display the interval and then the average number of steps in that interval.
